@@ -34,6 +34,7 @@ jobs:
           cache: 'npm'
 
       - name: Install & Build
+        working-directory: /client
         run: |
           npm ci
           npm run build
