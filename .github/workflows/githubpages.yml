@@ -1,0 +1,30 @@
+name: Zero Dependency Demo
+
+on:
+  workflow_dispatch: # Allows you to trigger it manually with a button
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  create-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create a Fake Website
+        run: |
+          mkdir my-site
+          echo "<html><body><h1>Hello Students!</h1><p>This page was generated inside a GitHub Action computer.</p></body></html>" > my-site/index.html
+
+      - name: Upload the Folder as Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'my-site' # Tells GitHub: "Take the folder I just created"
+
+      - name: Deploy to the Web
+        id: deployment
+        uses: actions/deploy-pages@v4
